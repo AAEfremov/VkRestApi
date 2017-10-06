@@ -5,22 +5,22 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static core.VkGetRegionsConstants.*;
+import static core.VkMethodsConstants.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 public class TestVkApiGetRegions {
 
-    // use base request and response specifications to form request and validate response.
+    //use base request and response specifications to form request and validate response.
     @Test
     public void useBaseRequestAndResponseSpecificationsForRegions() {
         RestAssured
                 .given(VkApiMethods.baseRequestConfiguration(VK_API_REGIONS_URI))
-                .param(PARAM_REGIONS_COUNTRY_ID, 10)
-                .param(PARAM_REGIONS_OFFSET, 3)
-                .param(PARAM_REGIONS_COUNT, 5)
-                .param(PARAM_REGIONS_VERSION, "5.68")
+                .param(PARAM_COUNTRY_ID, 10)
+                .param(PARAM_OFFSET, 3)
+                .param(PARAM_COUNT, 5)
+                .param(PARAM_VERSION, "5.68")
                 .get().prettyPeek()
                 .then().specification(VkApiMethods.successResponse());
     }
@@ -35,6 +35,7 @@ public class TestVkApiGetRegions {
                 .then().specification(VkApiMethods.successResponse());
     }
 
+    //test method response as an object created from json scheme
     @Test
     public void validateGetRegionsAnswerAsAnObject() {
         List<VkGetRegionsAnswer> answers = VkApiMethods.getVkGetRegionsAnswers(
@@ -42,7 +43,7 @@ public class TestVkApiGetRegions {
                         .country_id(TEST_REGIONS_COUNTRY_ID)
                         .offset(TEST_REGIONS_OFFSET)
                         .count(TEST_REGIONS_COUNT)
-                        .version(REGIONS_VERSION)
+                        .version(VERSION)
                         .callApi());
 
         assertThat(answers.size(), lessThanOrEqualTo(Integer.parseInt(String.valueOf(TEST_REGIONS_COUNT))));

@@ -5,22 +5,23 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static core.VkGetCitiesConstants.*;
+import static core.VkMethodsConstants.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 public class TestVkApiGetCities {
 
+    //use base request and response specifications to form request and validate response.
     @Test
     public void useBaseRequestAndResponseSpecificationsForCities() {
         RestAssured
                 .given(VkApiMethods.baseRequestConfiguration(VK_API_CITIES_URI))
-                .param(PARAM_CITIES_COUNTRY_ID, 9)
-                .param(PARAM_CITIES_OFFSET, 0)
-                .param(PARAM_CITIES_NEED_ALL, 0)
-                .param(PARAM_CITIES_COUNT, 7)
-                .param(PARAM_CITIES_VERSION, "5.68")
+                .param(PARAM_COUNTRY_ID, 9)
+                .param(PARAM_OFFSET, 0)
+                .param(PARAM_NEED_ALL, 0)
+                .param(PARAM_COUNT, 7)
+                .param(PARAM_VERSION, "5.68")
                 .get().prettyPeek()
                 .then().specification(VkApiMethods.successResponse());
     }
@@ -46,6 +47,7 @@ public class TestVkApiGetCities {
                 .then().specification(VkApiMethods.successResponse());
     }
 
+    //test method response as an object created from json scheme
     @Test
     public void validateGetCitiesAnswerAsAnObject() {
         List<VkGetCitiesAnswer> answers = VkApiMethods.getVkGetCitiesAnswers(
@@ -54,7 +56,7 @@ public class TestVkApiGetCities {
                         .region_id(1)
                         .offset(0)
                         .count(TEST_CITIES_COUNT)
-                        .version(CITIES_VERSION)
+                        .version(VERSION)
                         .callApi());
 
         assertThat(answers.size(), lessThanOrEqualTo(Integer.parseInt(String.valueOf(TEST_CITIES_COUNT))));
